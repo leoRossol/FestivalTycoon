@@ -1,17 +1,17 @@
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 
 @dataclass
 class Player:
     name: str
-    money: float = 10_000.0
-    reputation: int = 10
-    prev_fests: int = 0
+    money: float
+    reputation: int
+    history: int
 
-    def enough_money(self, amount: float) -> bool:
+    def has_enough(self, amount: float) -> bool:
         return self.money >= amount
 
-    def pay(self, amount: float) -> bool:
-        if self.enough_money(amount):
+    def payment(self, amount:float) -> bool:
+        if self.has_enough(amount):
             self.money -= amount
             return True
         return False
@@ -23,9 +23,9 @@ class Player:
         self.reputation = max(0, min(100, self.reputation + delta))
 
     def __str__(self):
-        return (
-            f"{self.nome}\n"
-            f"  Money: $  {self.money:,.2f}\n"
+        return(
+            f"{self.name}\n"
+            f"  Money: $ {self.money:,}\n"
             f"  Reputation: {self.reputation}/100\n"
-            f"  Previous Festivals {self.prev_fests}"
+            f"  Previous Festivals: {self.history}\n"
         )
