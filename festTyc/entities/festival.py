@@ -3,6 +3,7 @@ from enum import Enum
 from entities.artist import Artist
 from entities.venue import Venue
 from entities.player import Player
+from entities.staff import Staff
 
 class FestivalStatus (Enum):
     PLANNING = "Planning"
@@ -16,6 +17,8 @@ class Festival:
     ticketPrice: float
     venue: Venue
     lineup: list[Artist] = field(default_factory=list)
+    hiredStaff: list[Staff] = field(default_factory=list)
+
     # tbd after sim
     soldTickets: int
     totalEarnings: float
@@ -25,6 +28,12 @@ class Festival:
     def add_artist(self, artist, player) -> bool:
         if artist.accepts_booking(player):
             self.lineup.append(artist)
+            return True
+        return False
+
+    def add_staff(self, staff, plaver) -> bool:
+        if staff.is_unlocked(plaver):
+            self.hiredStaff.append(staff)
             return True
         return False
 
