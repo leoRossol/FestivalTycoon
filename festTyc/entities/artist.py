@@ -38,10 +38,9 @@ class Artist:
     def fee_rise(self):
         self.fee += self.fee * 0.10
 
-
     def __str__(self):
         return(
-            f"Name: {self.name}\n"
+            f"Artist Name: {self.name}\n"
             f"  Genre: {self.genre.value}\n"
             f"  Popularity: {self.popularity}/100\n"
             f"  Fee: $ {self.fee}\n"

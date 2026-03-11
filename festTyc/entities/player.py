@@ -5,7 +5,7 @@ class Player:
     name: str
     money: float
     reputation: int
-    history: int
+    festPlayed: int
 
     def has_enough(self, amount: float) -> bool:
         return self.money >= amount
@@ -27,5 +27,5 @@ class Player:
             f"{self.name}\n"
             f"  Money: $ {self.money:,}\n"
             f"  Reputation: {self.reputation}/100\n"
-            f"  Previous Festivals: {self.history}\n"
+            f"  Previous Festivals: {self.festPlayed}\n"
         )
