@@ -16,14 +16,14 @@ class Festival:
     status: FestivalStatus
     ticketPrice: float
     venue: Venue
-    lineup: list[Artist] = field(default_factory=list)
-    hiredStaff: list[Staff] = field(default_factory=list)
-
     # tbd after sim
     soldTickets: int
     totalEarnings: float
     profit: float
     crowdSatisfaction: int
+    # optional value
+    lineup: list[Artist] = field(default_factory=list)
+    hiredStaff: list[Staff] = field(default_factory=list)
 
     def add_artist(self, artist, player) -> bool:
         if artist.accepts_booking(player):
@@ -64,4 +64,6 @@ class Festival:
             f"  Ticket Price: $ {self.ticketPrice:,}\n"
             f"  Venue: {self.venue.name}\n"
             f"  Lineup: {self.lineup}\n"
+            f"  Sold Tickets: {self.soldTickets}\n"
+            f"  Profit: $: {self.profit:,}\n"
         )

@@ -22,21 +22,8 @@ class Venue:
         i = self.popularity / 1000
         self.rent += self.rent * i
 
-    #TODO undupe this code after testing
-    def boost_popularity(self, festival):
-        if festival.crowdSatisfaction == 100:
-            self.popularity += 10
-        elif festival.crowdSatisfaction >= 80:
-            self.popularity += 5
-        elif festival.crowdSatisfaction >= 60:
-            self.popularity += 2
-        elif festival.crowdSatisfaction >= 50:
-            self.popularity += 0
-        elif festival.crowdSatisfaction >= 30:
-            self.popularity -= 2
-        else:
-            self.popularity -= 5
-        self.popularity = max(0, min(100, self.popularity))
+    def change_popularity(self, delta):
+        self.popularity = max(0, min(100, self.popularity + delta))
 
     #TODO add random events to this later
     def is_available(self):

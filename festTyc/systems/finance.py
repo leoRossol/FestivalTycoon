@@ -30,3 +30,9 @@ def apply_earnings(festival, player):
         player.earn(festival.profit)
     elif festival.profit < 0:
         player.payment(abs(festival.profit))
+
+def __str__ ():
+    return(
+
+
+    )
