@@ -1,8 +1,3 @@
-from entities import player
-from entities.player import Player
-from entities.festival import Festival
-
-# ATUALIZA REP DO PLAYER, POPULARIDADE DE ARTISTAS E VENUE
 def apply_reputation(player, festival):
     satisfaction = festival.crowdSatisfaction
     delta = 0
@@ -18,3 +13,4 @@ def apply_reputation(player, festival):
     for artist in festival.lineup:
         artist.change_popularity(artist_delta)
     festival.venue.change_popularity(venue_delta)
+

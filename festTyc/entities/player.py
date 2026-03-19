@@ -5,13 +5,12 @@ class Player:
     name: str
     money: float
     reputation: int
-    festPlayed: int
 
-    def has_enough(self, amount: float) -> bool:
+    def can_pay(self, amount: float) -> bool:
         return self.money >= amount
 
-    def payment(self, amount:float) -> bool:
-        if self.has_enough(amount):
+    def pay(self, amount:float) -> bool:
+        if self.can_pay(amount):
             self.money -= amount
             return True
         return False
@@ -27,5 +26,4 @@ class Player:
             f"{self.name}\n"
             f"  Money: $ {self.money:,}\n"
             f"  Reputation: {self.reputation}/100\n"
-            f"  Previous Festivals: {self.festPlayed}\n"
         )

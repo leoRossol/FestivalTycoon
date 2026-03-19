@@ -15,9 +15,6 @@ class Staff:
     effect_value: int
     min_reputation: int
 
-    def is_unlocked(self, player) -> bool:
-        return player.reputation >= self.min_reputation
-
     def __str__(self):
         return(
             f"Service: {self.type.value}\n"
