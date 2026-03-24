@@ -1,6 +1,5 @@
 import json
 from pathlib import Path
-from zoneinfo import available_timezones
 
 from entities.artist import Artist, MusicGenre
 from entities.venue import Venue, Locations
@@ -35,7 +34,7 @@ def load_artists() -> list[Artist]:
             fee=fee
         )
         artists.append(artist)
-        return artists
+    return artists
 
 
 def load_venues() -> list[Venue]:
@@ -43,7 +42,7 @@ def load_venues() -> list[Venue]:
     with path.open("r", encoding="utf-8") as f:
         raw_list = json.load(f)
 
-    venues: list[Artist] = []
+    venues: list[Venue] = []
     for item in raw_list:
         name = item["name"]
         quality = item["quality"]
@@ -62,7 +61,7 @@ def load_venues() -> list[Venue]:
             location=location
         )
         venues.append(venue)
-        return venues
+    return venues
 
 
 def load_staff() -> list[Staff]:
@@ -87,7 +86,7 @@ def load_staff() -> list[Staff]:
             min_reputation=min_reputation
         )
         staff_list.append(staff_member)
-        return staff_list
+    return staff_list
 
 def create_initial_player() -> Player:
     return Player(
