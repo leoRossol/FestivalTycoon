@@ -1,0 +1,16 @@
+[
+  {
+    "type": "MARKETING",
+    "level": "Junior",
+    "cost": 1000.0,
+    "effect_value": 5,
+    "min_reputation": 0
+  },
+  {
+    "type": "MARKETING",
+    "level": "Senior",
+    "cost": 5000.0,
+    "effect_value": 15,
+    "min_reputation": 40
+  }
+]

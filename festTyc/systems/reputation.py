@@ -11,6 +11,6 @@ def apply_reputation(player, festival):
     artist_delta = round(delta * 0.75)
     venue_delta = round(delta * 0.50)
     for artist in festival.lineup:
-        artist.change_popularity(artist_delta)
-    festival.venue.change_popularity(venue_delta)
+        artist.update_reputation(artist_delta)
+    festival.venue.update_reputation(venue_delta)
 
