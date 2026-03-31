@@ -11,20 +11,22 @@ class Locations(Enum):
 @dataclass
 class Venue:
     name: str
-    quality: int
     capacity: int
-    rent: float
-    reputation: int
+    level: int #AUMENTA DE ACORDO COM QUALIDADE
+    rent: float #AUMENTA DE ACORDO COM O NIVEL
+    reputation: int #DEFINE HYPE GERADO
+    quality: int #AUMENTA APENAS VIA INVESTIMENTO DO PLAYER
+    is_owned: bool
     location: Locations
 
-    def update_reputation(self, delta: int):
-        self.reputation = max(0, min(100, self.reputation + delta))
-
     def __str__(self):
-        return(
+        return (
             f"Venue Name: {self.name}\n"
+            f"  Capacity: {self.capacity}\n"
+            f"  Level: {self.level}/5\n"
+            f"  Rent: ${self.rent:,}\n"
+            f"  Reputation: {self.reputation}/100\n"
             f"  Quality: {self.quality}/100\n"
-            f"  Capacity: {self.capacity} People\n"
-            f"  Rent: $ {self.rent:,}\n"
-            f"  Popularity: {self.reputation}/100\n"
+            f"  Is Owned: {self.is_owned}\n"
+            f"  Location: {self.location.value}\n"
         )

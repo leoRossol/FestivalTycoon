@@ -8,29 +8,35 @@ class FestivalStatus (Enum):
     PLANNING = "Planning"
     DONE = "Done"
     CANCELLED = "Cancelled"
+    SIMULATING = "Simulating"
 
 @dataclass
 class Festival:
     name: str
     status: FestivalStatus
-    ticketPrice: float
+    ticket_price: float
     venue: Venue
     # tbd after sim
-    soldTickets: int
-    totalEarnings: float
+    sold_tickets: int
+    total_earnings: float
     profit: float
-    crowdSatisfaction: int
+    crowd_satisfaction: int
+    genre_bonus: float
     # lists
     lineup: list[Artist] = field(default_factory=list)
-    hiredStaff: list[Staff] = field(default_factory=list)
+    hired_staff: list[Staff] = field(default_factory=list)
 
     def __str__(self):
-        return(
+        return (
             f"Festival Name: {self.name}\n"
             f"  Status: {self.status.value}\n"
-            f"  Ticket Price: $ {self.ticketPrice:,}\n"
+            f"  Ticket Price: $ {self.ticket_price:,}\n"
             f"  Venue: {self.venue.name}\n"
             f"  Lineup: {self.lineup}\n"
-            f"  Sold Tickets: {self.soldTickets}\n"
-            f"  Profit: $ {self.profit:,}\n"
+            f"  Hired Staff: {self.hired_staff}\n"
+            f"  Sold Tickets: {self.sold_tickets}\n"
+            f"  Total Earnings: ${self.total_earnings:,}\n"
+            f"  Profit: ${self.profit:,}\n"
+            f"  Crowd Satisfaction: {self.crowd_satisfaction}\n"
+            f"  Genre Bonus: {self.genre_bonus}\n"
         )
