@@ -14,7 +14,7 @@ class Objective:
     target_value: float
     description: str
     fulfilled: bool
-    min_reputation: int
+    max_reputation: int
 
     def __str__(self):
         return (
@@ -22,5 +22,5 @@ class Objective:
             f"  Target Value: {self.target_value}\n"
             f"  Description: {self.description}\n"
             f"  Fulfilled: {self.fulfilled}\n"
-            f"  Minimal Reputation: {self.min_reputation}\n"
+            f"  Maximum Reputation: {self.max_reputation}\n"
         )

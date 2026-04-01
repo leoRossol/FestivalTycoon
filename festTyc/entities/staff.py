@@ -15,7 +15,7 @@ class Staff:
     type: Services
     level: str
     cost: float
-    effect_value: int
+    effect_value: float
     min_reputation: int
     mitigation_value: int
 

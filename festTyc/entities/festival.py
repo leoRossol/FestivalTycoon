@@ -3,6 +3,8 @@ from enum import Enum
 from entities.artist import Artist
 from entities.venue import Venue
 from entities.staff import Staff
+from entities.objective import Objective
+from entities.event import Event
 
 class FestivalStatus (Enum):
     PLANNING = "Planning"
@@ -25,6 +27,8 @@ class Festival:
     # lists
     lineup: list[Artist] = field(default_factory=list)
     hired_staff: list[Staff] = field(default_factory=list)
+    objectives: list[Objective] = field(default_factory=list)
+    events: list[Event] = field(default_factory=list)
 
     def __str__(self):
         return (

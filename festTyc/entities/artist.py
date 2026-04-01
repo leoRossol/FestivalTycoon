@@ -24,7 +24,7 @@ class Artist:
         return(
             f"Name: {self.name}\n"
             f"  Genre: {self.genre.value}\n"
-            f"  Reputation: {self.reputation}/100\n"
+            f"  Reputation: {self.reputation}/1000\n"
             f"  Fee: ${self.fee}\n"
             f"  Level: {self.level}/5\n"
             f"  Retired: {self.is_retired}\n"

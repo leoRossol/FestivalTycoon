@@ -1,6 +1,10 @@
 # GERENCIA O QUE CABE AO PLANEJAMENTO
 
 # get available artists
+def get_available_artists(player, festival):
+    if
+
+
 # get available venues
 # get available staff
 
