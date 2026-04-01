@@ -1,6 +1,3 @@
-import json
-from pathlib import Path
-
 from entities.artist import Artist, MusicGenre
 from entities.venue import Venue, Locations
 from entities.staff import Staff, Services

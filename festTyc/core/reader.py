@@ -133,7 +133,7 @@ def load_events() -> list[Event]:
         type_str = item["type"]
         event_type = Type[type_str]
         mitigated_str = item["mitigated"]
-        mitigated_by = Mitigated[mitigated_str]
+        mitigated_by = Mitigated[mitigated_str] if mitigated_str else None
         target_str = item["target"]
         target = Target[target_str]
         resolved = item["resolved"]

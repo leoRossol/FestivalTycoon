@@ -1,42 +1,84 @@
 # GERENCIA OBJETIVOS DO JOGO
-from entities.event import Type
+import math
+import random
+from core.reader import load_objectives
+from entities.objective import Types
 
 
-# gerar objetivos (player)
-    # 1-n objetivos baseado na reputacao do player
+def how_many_objs(reputation: int) -> int:
+    if reputation < 25: return 2
+    elif reputation < 50: return 3
+    elif reputation < 75: return 4
+    else: return 5
 
-# validar (festival)
+
+def generate_objectives(player):
+    all_objectives = load_objectives()
+    available = [
+        obj for obj in all_objectives
+        if obj.max_reputation <= player.reputation
+    ]
+    if len(available) < 2:
+        available = all_objectives[:2]
+
+    n = min(how_many_objs(player.reputation), len(available))
+    chosen = random.sample(available, n)
+
+    for obj in chosen:
+        obj.fulfilled = False
+
+    return chosen
+
+
 def objective_check(festival):
-    for objective in festival:
-        if objective.type == Type.PROFIT:
-            if objective.target_value <= festival.profit:
-                objective.fulfilled = True
-            else: objective.fulfilled = False
+    for objective in festival.objectives:
+        if objective.type == Types.PROFIT:
+            objective.fulfilled = festival.profit >= objective.target_value
 
-        if objective.type == Type.LINEUPSIZE:
-            if objective.target_value <= len(festival.lineup):
-                objective.fulfilled = True
-            else: objective.fulfilled = False
+        elif objective.type == Types.LINEUPSIZE:
+                objective.fulfilled = len(festival.lineup) >= objective.target_value
 
-        if objective.type == Type.LINEUPLEVEL:
-            if objective.target_value <= festival.lineup:
-                objective.fulfilled = True
-            else: objective.fulfilled = False
+        elif objective.type == Types.LINEUPLEVEL:
+            if not festival.lineup:
+                objective.fulfilled = False
+            else:
+                avg_level = sum(a.level for a in festival.lineup) / len(festival.lineup)
+                objective.fulfilled = avg_level >= objective.target_value
 
-        if objective.type == Type.LOCATION:
-            if objective.target_value == festival.venue.location:
-                objective.fulfilled = True
-            else: objective.fulfilled = False
+        if objective.type == Types.LOCATION:
+            if festival.venue is None:
+                objective.fulfilled = False
+            else:
+                objective.fulfilled = festival.venue.location.name == objective.target_value
+
+        if objective.type == Types.GENRE:
+            if not festival.linuep:
+                objective.fulfilled = False
+            else:
+                genre_count = {}
+                for artist in festival.linuep:
+                    genre_count[artist.genre] = genre_count.get(artist.genre, 0) +1
+                dominant = max(genre_count, key=genre_count.get)
+                majority = genre_count[dominant] > len(festival.linuep) / 2
+                objective.fulfilled = dominant.name == objective.target_value and majority
 
 
+def minimum_obj_met(festival) -> bool:
+    count = 0
+    for objective in festival.objectives:
+        if objective.fulfilled:
+            count += 1
+    if math.ceil(len(festival.objectives)/2) <= count:
+        return True
+    else: return False
 
-    # verificar objetivos depois da simulacao, seta fulfilled
 
-# check minimum met (festival)
-    # verifica se ao menos metade dos obj. foram concluidos
+def consecutive_failure(player, festival):
+    if minimum_obj_met(festival):
+        player.consecutive_failures = 0
+    else :
+        player.consecutive_failures += 1
 
-# track consecutive failures (player, objectives)
-    # incrementa ou resta contador
 
-# check dismissal (player)
-    # verifica se o player vai ser demitido por falhas
+def check_dismissal(player) -> bool:
+    return player.consecutive_failures > 5
