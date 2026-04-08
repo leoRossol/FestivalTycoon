@@ -17,7 +17,7 @@ class Festival:
     name: str
     status: FestivalStatus
     ticket_price: float
-    venue: Venue
+    venue: Venue | None
     # tbd after sim
     sold_tickets: int
     total_earnings: float

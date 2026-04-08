@@ -26,7 +26,7 @@ class Event:
     penalty_value: float
     penalty_from: Type
     penalty_target: Target
-    mitigated: Mitigated
+    mitigated: Mitigated | None
     resolved: bool
     is_positive: bool
 

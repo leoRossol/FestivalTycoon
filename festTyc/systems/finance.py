@@ -1,24 +1,23 @@
 # CONTROLA DINHEIRO DO JOGO
 from entities.staff import Services
 
-# player pagar
+# called in planning
 def player_pay(player, amount: float) -> bool:
     if player.money < amount:
         return False
     else: player.money -= amount
     return True
 
-# player receber
+# called in planning
 def player_get(player, amount: float) -> bool:
     player.money += amount
     return True
 
-# selecionar preco do ingresso
 def set_ticket_price(festival, amount: float) -> bool:
     festival.ticket_price = amount
     return True
 
-# calcular venda de ingressos
+# called during simulation phase
 def calculate_sold_tickets(festival) -> int:
     avg_popularity = 0
     avg_level = 0
@@ -43,12 +42,12 @@ def calculate_sold_tickets(festival) -> int:
     sold = int(festival.venue.capacity * rate)
     return sold
 
-# calcular ganhos
+# callled in result screen
 def calculate_total_earnings(festival) -> float:
     total = calculate_sold_tickets(festival) * festival.ticket_price
     return total
 
-# calcular custo total
+# called in planning/result screen
 def calculate_total_costs(festival):
     artist_cost = 0
     staff_cost = 0
@@ -59,7 +58,7 @@ def calculate_total_costs(festival):
     total_cost = artist_cost + staff_cost + festival.venue.rent
     return total_cost, artist_cost, staff_cost, festival.venue.rent
 
-# calcular lucro
+# called in result screen
 def calculate_profit (festival) -> float:
     total_cost, artist_fee, staff_cost, venue_rent = calculate_total_costs(festival)
     profit = calculate_total_earnings(festival) - total_cost
