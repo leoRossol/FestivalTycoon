@@ -5,11 +5,11 @@ from entities.artist import Artist
 from entities.staff import Staff
 from entities.venue import Venue
 
-## LISTING
+#LISTING
 def get_available_artists(player, artists: list[Artist], festival) -> list[Artist]:
     available = []
     for artist in artists:
-        if artist_hire(player, artist) and artist not in festival.lineup:
+        if artist_booking(player, artist) and artist not in festival.lineup:
             available.append(artist)
     return available
 
@@ -30,21 +30,22 @@ def get_rotation(player, artists, festival) -> list[Artist]:
 def get_available_staff(player, staffs: list[Staff], festival) -> list[Staff]:
     available = []
     for staff in staffs:
-        if staff_hire(player, staff) and staff not in festival.hired_staff:
+        if staff_booking(player, staff) and staff not in festival.hired_staff:
             available.append(staff)
     return available
 
 def get_available_venue(player, venues: list[Venue]) -> list[Venue]:
     available = []
     for venue in venues:
-        if venue_hire(player, venue):
+        if venue_booking(player, venue):
             available.append(venue)
     return available
 
 
-# HIRING
+
+#HIRING
 def add_artist(player, artist, festival) -> bool:
-    if not artist_hire(player, artist):
+    if not artist_booking(player, artist):
         return False
     elif artist in festival.lineup:
         return False
@@ -54,7 +55,7 @@ def add_artist(player, artist, festival) -> bool:
     return True
 
 def add_venue (player, venue, festival) -> bool:
-    if not venue_hire(player, venue):
+    if not venue_booking(player, venue):
         return False
     if festival.venue is not None:
         return False
@@ -64,7 +65,7 @@ def add_venue (player, venue, festival) -> bool:
     return True
 
 def add_staff (player, staff, festival) -> bool:
-    if not staff_hire(player, staff):
+    if not staff_booking(player, staff):
         return False
     for hired in festival.hired_staff:
         if hired.type == staff.type:
@@ -75,7 +76,8 @@ def add_staff (player, staff, festival) -> bool:
     return True
 
 
-# REMOVING
+
+#REMOVING
 def remove_artist(player, artist, festival) -> bool:
     if artist in festival.lineup:
         festival.lineup.remove(artist)
@@ -101,7 +103,8 @@ def remove_staff(player, staff, festival) -> bool:
         return False
 
 
-# invest in venue
+
+#INVESTING
 def venue_invest(player, venue, amount: float) -> bool:
     if venue.quality < 5 and player.reputation >= 50:
         if finance.player_pay(player, amount):
@@ -112,11 +115,16 @@ def venue_invest(player, venue, amount: float) -> bool:
             return True
     return False
 
+
+
+#CANCELLING
 def cancel_festival(festival):
     festival.status = "CANCELED"
 
-# HELPERS
-def artist_hire(player, artist) -> bool:
+
+
+#HELPERS
+def artist_booking(player, artist) -> bool:
     if artist.is_retired:
         return False
     else:
@@ -124,12 +132,12 @@ def artist_hire(player, artist) -> bool:
             return False
     return True
 
-def staff_hire(player, staff) -> bool:
+def staff_booking(player, staff) -> bool:
     if staff.min_reputation > player.reputation:
         return False
     return True
 
-def venue_hire(player, venue) -> bool:
+def venue_booking(player, venue) -> bool:
     if venue.reputation > player.reputation:
         return False
     return True
