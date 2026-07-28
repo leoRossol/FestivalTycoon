@@ -125,21 +125,17 @@ def cancel_festival(festival):
 
 #HELPERS
 def artist_booking(player, artist) -> bool:
-    if artist.is_retired:
-        return False
+    if artist.is_retired: return False
     else:
-        if artist.reputation > player.reputation:
-            return False
+        if artist.reputation > player.reputation: return False
     return True
 
 def staff_booking(player, staff) -> bool:
-    if staff.min_reputation > player.reputation:
-        return False
+    if staff.min_reputation > player.reputation: return False
     return True
 
 def venue_booking(player, venue) -> bool:
-    if venue.reputation > player.reputation:
-        return False
+    if venue.reputation > player.reputation: return False
     return True
 
 def big_star(artist, player):

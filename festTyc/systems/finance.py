@@ -1,5 +1,4 @@
 # CONTROLA DINHEIRO DO JOGO
-from systems import simulation
 
 #PLAYER MONEY
 def player_pay(player, amount: float) -> bool:
@@ -23,8 +22,9 @@ def set_ticket_price(festival, amount: float) -> bool:
 
 #CALCULATIONS
 def calculate_total_earnings(festival) -> float:
-    total = simulation.calculate_sold_tickets(festival) * festival.ticket_price
+    total = festival.sold_tickets * festival.ticket_price
     return total
+
 
 def calculate_total_costs(festival):
     artist_cost = 0
@@ -35,6 +35,7 @@ def calculate_total_costs(festival):
         staff_cost += staff.cost
     total_cost = artist_cost + staff_cost + festival.venue.rent
     return total_cost, artist_cost, staff_cost, festival.venue.rent
+
 
 def calculate_profit (festival) -> float:
     total_cost, artist_fee, staff_cost, venue_rent = calculate_total_costs(festival)
