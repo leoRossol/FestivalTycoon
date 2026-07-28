@@ -13,7 +13,7 @@ class Services (Enum):
 @dataclass
 class Staff:
     type: Services
-    level: str
+    level: int
     cost: float
     effect_value: float
     min_reputation: int

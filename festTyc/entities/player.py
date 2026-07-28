@@ -5,7 +5,8 @@ from entities.venue import Venue
 class Player:
     name: str
     money: float
-    reputation: int
+    reputation: int #recente
+    experience: int #geral
     consecutive_failures: int
     owned_venues: list[Venue] = field(default_factory=list)
 
@@ -13,7 +14,8 @@ class Player:
         return(
             f"{self.name}\n"
             f"  Money: $ {self.money:,}\n"
-            f"  Reputation: {self.reputation}/1000\n"
+            f"  Reputation: {self.reputation}/100\n"
+            f"  Experience: {self.experience}/100\n"
             f"  Consecutive Failures: {self.consecutive_failures}\n"
             f"  Owned Venues: {self.owned_venues}\n"
         )
