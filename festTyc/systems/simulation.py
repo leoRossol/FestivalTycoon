@@ -1,15 +1,15 @@
 # SIMULA TUDO
-from entities.artist import Artist
 from entities.staff import Services
 from systems import finance
 from entities.festival import FestivalStatus
+from systems import reputation
 
 #ORQUESTRA TUDO
 def simulate_festival(player, festival):
     if not start_check(festival): return
     festival.status = FestivalStatus.SIMULATING
     hype = calculate_hype(festival)
-    apply_results(festival, hype)
+    apply_results(player, festival, hype)
     festival.status = FestivalStatus.DONE
 
 
@@ -75,12 +75,14 @@ def calculate_satisfaction(festival, hype) -> float:
     return min(max(s, 0), 100)       # clamp 0-100, o mesmo idioma do hype
 
 
-def apply_results(festival, hype):
+def apply_results(player, festival, hype):
     festival.sold_tickets = calculate_sold_tickets(festival, hype)
     festival.total_earnings = finance.calculate_total_earnings(festival)
     festival.profit = finance.calculate_profit(festival)
     festival.crowd_satisfaction = calculate_satisfaction(festival, hype)
     #festival.genre_bonus
+    reputation.update_artist_rep(festival)
+    reputation.update_player_rep(player, festival)
 
 
 
