@@ -19,6 +19,11 @@ def set_ticket_price(festival, amount: float) -> bool:
     return True
 
 
+#VENUE IMPROVEMENT
+#def_update_venue(player, venue) -> bool:
+
+
+
 
 #CALCULATIONS
 def calculate_total_earnings(festival) -> float:
