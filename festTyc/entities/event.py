@@ -1,16 +1,12 @@
 from dataclasses import dataclass
 from enum import Enum
+from entities.staff import Services
 
 class Type(Enum):
     ARTIST = "Artist"
     VENUE = "Venue"
     STAFF = "Staff"
     OTHER = "Other"
-class Mitigated(Enum):
-    SECURITY = "Security"
-    TECHNICAL = "Technical"
-    PRODUCER = "Producer"
-    MEDIC ="Medic"
 class Target(Enum):
     PERFORMANCE = "Performance"
     PRODUCTION = "Production"
@@ -26,7 +22,7 @@ class Event:
     penalty_value: float
     penalty_from: Type
     penalty_target: Target
-    mitigated: Mitigated | None
+    mitigated: Services | None
     resolved: bool
     is_positive: bool
 
@@ -40,7 +36,7 @@ class Event:
             f"  Penalty Value: {self.penalty_value}/5\n"
             f"  Penalty From: {self.penalty_from.value}\n"
             f"  Penalty Target: {self.penalty_target.value}\n"
-            f"  Mitigated By: {self.mitigated.value}\n"
+            f"  Mitigated By: {self.mitigated.value if self.mitigated else '-'}\n"
             f"  Resolved: {self.resolved}\n"
             f"  Positive: {self.is_positive}\n"
         )

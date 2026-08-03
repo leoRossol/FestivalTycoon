@@ -3,6 +3,8 @@ from entities.staff import Services
 from systems import finance
 from entities.festival import FestivalStatus
 from systems import reputation
+from systems import helpers
+from systems import events
 
 PER_LVL_FLOOR = 12.5
 VENUE_HYPE_WEIGHT = 0.2
@@ -50,17 +52,10 @@ def fair_price(festival) -> float:
     fp = lineup_strength(festival) * PRICE_PER_POINT
     return fp
 
-#GENERAL HELPERS ======================================================================
-def get_staff(festival, service_type):
-    for staff in festival.hired_staff:
-        if staff.type == service_type:
-            return staff
-    return None
-
 #HYPE CALCULATIONS ======================================================================
 def calculate_hype (festival) -> float:
     avg_lineup = lineup_strength(festival)
-    mkt = get_staff(festival, Services.MARKETING)
+    mkt = helpers.get_staff(festival, Services.MARKETING)
     mkt_value = mkt.effect_value if mkt else 0
     raw_score  = avg_lineup + mkt_value + venue_hype(festival) + price_hype(festival)
     score = min(max(raw_score, 0), 100)
@@ -78,8 +73,8 @@ def price_hype(festival) -> float:
 #DELIVERY CALCULATIONS ======================================================================
 def calculate_performance(festival) -> float:
     if not festival.lineup: return 0
-    performance = ((lineup_strength(festival) + venue_quality(festival)) / 2) + production_quality(festival)
-    #TODO aplicar penalidades de evento e outros ajustes depois
+    base = ((lineup_strength(festival) + venue_quality(festival)) / 2) + production_quality(festival)
+    performance = base - events.incident_penalty(festival)
     return performance
 
 def venue_quality(festival) -> float:
@@ -88,13 +83,11 @@ def venue_quality(festival) -> float:
     return max(venue.quality, floor)
 
 def production_quality(festival) -> float:
-    sfx = get_staff(festival, Services.EFFECTS)
-    catering = get_staff(festival, Services.CATERING)
+    sfx = helpers.get_staff(festival, Services.EFFECTS)
+    catering = helpers.get_staff(festival, Services.CATERING)
     sfx_value = sfx.effect_value if sfx else 0
     catering_value = catering.effect_value if catering else 0
     return sfx_value + catering_value
-
-#TODO def incident_penalty(festival)
 
 # RESULTS ======================================================================
 def price_expectation(festival) -> float:

@@ -1,7 +1,7 @@
 import json
 from pathlib import Path
 from entities.artist import Artist, MusicGenre
-from entities.event import Target, Mitigated, Type, Event
+from entities.event import Target, Type, Event
 from entities.objective import Objective, Types
 from entities.venue import Venue, Locations
 from entities.staff import Staff, Services
@@ -133,7 +133,7 @@ def load_events() -> list[Event]:
         type_str = item["type"]
         event_type = Type[type_str]
         mitigated_str = item["mitigated"]
-        mitigated_by = Mitigated[mitigated_str] if mitigated_str else None
+        mitigated_by = Services[mitigated_str] if mitigated_str else None
         target_str = item["target"]
         target = Target[target_str]
         resolved = item["resolved"]
