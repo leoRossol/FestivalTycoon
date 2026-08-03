@@ -6,6 +6,9 @@ from systems import reputation
 
 PER_LVL_FLOOR = 12.5
 VENUE_HYPE_WEIGHT = 0.2
+PRICE_PER_POINT = 2
+PRICE_SENSITIVITY = 0.05
+PRICE_EXPECTATION_WEIGHT = 0.1
 
 #GENRAL SIMULATION ========================================================================================
 def start_check (festival) -> bool:
@@ -43,6 +46,10 @@ def calculate_sold_tickets(festival, hype) -> int:
     sold = int(festival.venue.capacity * hype)
     return sold
 
+def fair_price(festival) -> float:
+    fp = lineup_strength(festival) * PRICE_PER_POINT
+    return fp
+
 #GENERAL HELPERS ======================================================================
 def get_staff(festival, service_type):
     for staff in festival.hired_staff:
@@ -55,13 +62,18 @@ def calculate_hype (festival) -> float:
     avg_lineup = lineup_strength(festival)
     mkt = get_staff(festival, Services.MARKETING)
     mkt_value = mkt.effect_value if mkt else 0
-    raw_score  = avg_lineup + mkt_value + venue_hype(festival)
+    raw_score  = avg_lineup + mkt_value + venue_hype(festival) + price_hype(festival)
     score = min(max(raw_score, 0), 100)
     hype = score / 100
     return hype
 
 def venue_hype(festival) -> float:
     return festival.venue.reputation * VENUE_HYPE_WEIGHT
+
+def price_hype(festival) -> float:
+    fp = fair_price(festival)
+    deviation = fp - festival.ticket_price
+    return deviation * PRICE_SENSITIVITY
 
 #DELIVERY CALCULATIONS ======================================================================
 def calculate_performance(festival) -> float:
@@ -85,13 +97,18 @@ def production_quality(festival) -> float:
 #TODO def incident_penalty(festival)
 
 # RESULTS ======================================================================
+def price_expectation(festival) -> float:
+    fp = fair_price(festival)
+    over = festival.ticket_price - fp
+    return over * PRICE_EXPECTATION_WEIGHT
+
 def calculate_satisfaction(festival, hype) -> float:
-    k = 0.7                          # do Cânone; depois vira constante nomeada
-    expectation = hype * 100         # traz pra escala 0-100
+    k = 0.7
+    expectation = hype * 100 + price_expectation(festival)
     delivery = calculate_performance(festival)
     g = delivery - expectation
     s = 50 + k * g
-    return min(max(s, 0), 100)       # clamp 0-100, o mesmo idioma do hype
+    return min(max(s, 0), 100)
 
 def apply_results(player, festival, hype):
     festival.sold_tickets = calculate_sold_tickets(festival, hype)
