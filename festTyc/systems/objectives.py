@@ -4,7 +4,7 @@ import random
 from core.reader import load_objectives
 from entities.objective import Types
 
-#OBJECTIVE STARTERS
+#OBJECTIVE STARTERS ========================================================================================
 def how_many_objs(reputation: int) -> int:
     if reputation < 25: return 2
     elif reputation < 50: return 3
@@ -28,30 +28,24 @@ def generate_objectives(player):
 
     return chosen
 
-
-
-#OBJECTIVE CHECKERS
+#OBJECTIVE CHECKERS ========================================================================================
 def objective_check(festival):
     for objective in festival.objectives:
         if objective.type == Types.PROFIT:
             objective.fulfilled = festival.profit >= objective.target_value
-
         elif objective.type == Types.LINEUPSIZE:
                 objective.fulfilled = len(festival.lineup) >= objective.target_value
-
         elif objective.type == Types.LINEUPLEVEL:
             if not festival.lineup:
                 objective.fulfilled = False
             else:
                 avg_level = sum(a.level for a in festival.lineup) / len(festival.lineup)
                 objective.fulfilled = avg_level >= objective.target_value
-
         elif objective.type == Types.LOCATION:
             if festival.venue is None:
                 objective.fulfilled = False
             else:
                 objective.fulfilled = festival.venue.location.name == objective.target_value
-
         elif objective.type == Types.GENRE:
             if not festival.lineup:
                 objective.fulfilled = False

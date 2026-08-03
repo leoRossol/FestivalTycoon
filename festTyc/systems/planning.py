@@ -1,11 +1,12 @@
 # GERENCIA O QUE CABE AO PLANEJAMENTO
 from entities import festival
+from entities.festival import FestivalStatus
 from systems import finance
 from entities.artist import Artist
 from entities.staff import Staff
 from entities.venue import Venue
 
-#LISTING
+#LISTING ========================================================================================
 def get_available_artists(player, artists: list[Artist], festival) -> list[Artist]:
     available = []
     for artist in artists:
@@ -41,9 +42,7 @@ def get_available_venue(player, venues: list[Venue]) -> list[Venue]:
             available.append(venue)
     return available
 
-
-
-#HIRING
+#HIRING ========================================================================================
 def add_artist(player, artist, festival) -> bool:
     if not artist_booking(player, artist):
         return False
@@ -75,9 +74,7 @@ def add_staff (player, staff, festival) -> bool:
     festival.hired_staff.append(staff)
     return True
 
-
-
-#REMOVING
+#REMOVING ========================================================================================
 def remove_artist(player, artist, festival) -> bool:
     if artist in festival.lineup:
         festival.lineup.remove(artist)
@@ -102,11 +99,9 @@ def remove_staff(player, staff, festival) -> bool:
     else:
         return False
 
-
-
-#INVESTING
+#INVESTING ========================================================================================
 def venue_invest(player, venue, amount: float) -> bool:
-    if venue.quality < 5 and player.reputation >= 50:
+    if venue.level < 5 and player.reputation >= 50:
         if finance.player_pay(player, amount):
             venue.reputation += amount * 0.50
             if venue.reputation >= 100:
@@ -115,15 +110,11 @@ def venue_invest(player, venue, amount: float) -> bool:
             return True
     return False
 
-
-
-#CANCELLING
+#CANCELLING ========================================================================================
 def cancel_festival(festival):
-    festival.status = "CANCELED"
+    festival.status = FestivalStatus.CANCELLED
 
-
-
-#HELPERS
+#HELPERS ========================================================================================
 def artist_booking(player, artist) -> bool:
     if artist.is_retired: return False
     else:

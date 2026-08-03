@@ -7,7 +7,7 @@ from systems import reputation
 PER_LVL_FLOOR = 12.5
 VENUE_HYPE_WEIGHT = 0.2
 
-#GENRAL SIMULATION
+#GENRAL SIMULATION ========================================================================================
 def start_check (festival) -> bool:
     if festival.venue is None:
         festival.status = FestivalStatus.CANCELLED
@@ -24,8 +24,6 @@ def simulate_festival(player, festival):
     hype = calculate_hype(festival)
     apply_results(player, festival, hype)
     festival.status = FestivalStatus.DONE
-
-
 
 #GENERAL CALCULATIONS ======================================================================
 def lineup_strength(festival) -> float:
@@ -45,16 +43,12 @@ def calculate_sold_tickets(festival, hype) -> int:
     sold = int(festival.venue.capacity * hype)
     return sold
 
-
-
 #GENERAL HELPERS ======================================================================
 def get_staff(festival, service_type):
     for staff in festival.hired_staff:
         if staff.type == service_type:
             return staff
     return None
-
-
 
 #HYPE CALCULATIONS ======================================================================
 def calculate_hype (festival) -> float:
@@ -68,7 +62,6 @@ def calculate_hype (festival) -> float:
 
 def venue_hype(festival) -> float:
     return festival.venue.reputation * VENUE_HYPE_WEIGHT
-
 
 #DELIVERY CALCULATIONS ======================================================================
 def calculate_performance(festival) -> float:
@@ -90,7 +83,6 @@ def production_quality(festival) -> float:
     return sfx_value + catering_value
 
 #TODO def incident_penalty(festival)
-
 
 # RESULTS ======================================================================
 def calculate_satisfaction(festival, hype) -> float:
